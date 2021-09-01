@@ -1,0 +1,29 @@
+extends ../layout
+
+block content
+  #content
+    section#shop-section2
+      .container
+        .title-section
+          h1 Mis ventas
+          span
+        .table-responsive.mt-4
+          table.table.table-hover
+            thead
+              tr
+                th(scope='col') #
+                th(scope='col') Post 
+                th(scope='col') Cliente
+                th(scope='col') Monto
+            tbody
+              if(purchases=="" || purchases==undefined)
+                tr
+                  td(colspan="5")
+                    p.text-center Aún no tiene ventas
+              else
+                each p, index in purchases
+                  tr
+                    td #{index+1}
+                    td #{p.post.title}
+                    td #{p.client.profile.name}
+                    td S/.#{p.amount}.00
