@@ -1,0 +1,44 @@
+extends ../layout
+
+block content
+  #content
+    section#shop-section2
+      .container: div(style='background:#F1F1F1 ; padding: 32px; border-radius: 16px')
+        .title-section
+          h1 Crear publicación
+          span
+        form.contact-info(method="POST")
+          input(type='hidden', name='_csrf', value=_csrf)
+          .row
+            .col-md-6.form-group
+              input.form-control#title(name='title' type='text' placeholder='Titulo(Required)')
+              input.form-control#image(name='image' type='hidden')
+            .col-md-6.form-group
+              select.selectpicker.form-control(multiple name='category' placeholder='Categorías(Required)')  
+                option(value="Alimentos") Alimento
+                option(value="Calzado") Calzado
+                option(value="Ropa") Ropa
+                option(value="Servicio") Servicio
+            .col-md-12.form-group
+              textarea.form-control#comment(name='description' placeholder='Descripción')
+            .col-md-12.form-group(style='padding:15px;justify-content:flex-end;display:flex')
+              button#upload_widget.cloudinary-button(style='padding:8px') Upload image
+              button.btn.btn-success(type='submit' style='margin-left:1rem') Crear
+              
+  script(type="text/javascript" src="https://widget.cloudinary.com/v2.0/global/all.js")
+  script.
+    var myWidget = cloudinary.createUploadWidget(
+      {
+        cloudName: 'dba912rpx', 
+        uploadPreset: 'qypvdkvi'
+      }, (error, result) => {
+        if (!error && result && result.event === "success") { 
+          document.getElementById("image").value = result.info.url
+        }
+      }
+    )
+
+    document.getElementById("upload_widget").addEventListener("click", function(event) {
+      event.preventDefault();
+      myWidget.open();
+    }, false);
