@@ -1,0 +1,36 @@
+extends ../layout
+
+block content
+  #content
+    section
+      .container(style='margin-top: 4rem')
+        .title-section
+          h1 Mis publicaciones
+          span           
+    section.blog-section.grid#all-products(data-array=posts)
+      .container
+        .products-box(v-if="displayArr && displayArr.length>0")
+          .row
+            .col-md-4(style="margin-top: 17px;" v-for="(arr, index) in displayArr" :key="index")
+              .product-post
+                h2.mb-2
+                  a(:href="'/post/'+arr._id+'/detalle'") {{arr.title}}
+                .gal-product
+                  img(:src="arr.image && arr.image!=''?arr.image:'/upload/shop/9.jpg'" alt='')
+                .product-links
+                  a.add-cart-btn(:href="'/post/'+arr._id+'/detalle'")
+                    i.fa.fa-eye
+                    span Ver detalle
+        .title-section(v-else)
+            h2.text-muted Aún no tienes publicaciones
+        ul.pagination-list(v-if="pages && pages.length>0")
+          li
+            a.prev-pag(v-if="page != 1" @click="page--")
+              i.fa.fa-chevron-left
+              |  prev
+          li
+            a(v-for="pageNumber in pages.slice(page-1, page+3)" @click="page = pageNumber" :class="page==pageNumber?'active':''" :key="pageNumber") {{pageNumber}}
+          li
+            a.next-pag(@click="page++" v-if="page < pages.length")
+              | next 
+              i.fa.fa-chevron-right
